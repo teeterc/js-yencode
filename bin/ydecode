@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var yencode = require ('../lib/yencode');
+var fs = require('fs')
+var optimist = require('optimist');
+
+function ydecode(infile, outfile){
+    var offs = fs.createWriteStream(outfile);
+    var infs = fs.createReadStream(infile)
+	.on('open', function (){
+	    infs.pipe(new yencode({decoder: true}))
+		.pipe(offs);
+	})
+    };
+
+var opt = optimist
+    .usage ('Usage: in out')
+    .argv;
+
+if (opt._.length != 2) {
+    optimist.showHelp()
+} else {
+    ydecode.apply(this, opt._);
+};

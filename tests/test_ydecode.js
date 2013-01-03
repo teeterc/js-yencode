@@ -1,16 +1,4 @@
-js-yenc
-=======
-
-JS - YEnc
-
-Usage:
-  Command line
-  ./bin/ydecode input output
-
-  Streams
-
-```javascript  
-var yencode = require ('yencode');
+var uuencode = require ('../lib/yencode');
 var fs = require ('fs');
 
 var inFile = './data/test.ync';
@@ -20,15 +8,14 @@ function test(){
     var infs = fs.createReadStream(inFile)
 	.on('open', function (){
 	    infs
-		.pipe(newyencode({decoder: true}))
+		.pipe(new uuencode({decoder: true}))
 		.on('data', function (d){
 		    data += d;
 		})
 		.on('end', function (){
-		    console.log(data);
+		    console.log(data == "INPUT\n");
 		});
 	})
     };
 
 test();
-```
